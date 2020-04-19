@@ -1,12 +1,12 @@
 const webpack = require('webpack')
 const path = require('path')
-const htmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 process.env.NODE_ENV = 'development'
 module.exports = {
     mode: 'development',
     target: 'web',
-    devTool:'cheap-module-source-map',
+    devtool:'cheap-module-source-map',
     entry:'./src/index',
     output:{
         path: path.resolve(__dirname,"build"),
@@ -14,15 +14,15 @@ module.exports = {
         filename:'bundle.js'
     },
     devServer:{
-        states:'minimal',
+        stats:'minimal',
         overlay:true,
         historyApiFallback:true,
         disableHostCheck:true,
         headers:{"Access-Control-Allow-Origin":"*"},
         https:false
     },
-    plugin:[
-        new htmlWebpackPlugin({
+    plugins:[
+        new HtmlWebpackPlugin({
             template:"src/index.html",
             favicon:"src/favicon.ico"
         })
@@ -41,4 +41,4 @@ module.exports = {
         ]
     }
 
-}
+};
