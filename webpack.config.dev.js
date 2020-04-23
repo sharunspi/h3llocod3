@@ -32,10 +32,10 @@ module.exports = {
             {
                 test:/\.(js|jsx)$/,
                 exclude:/node-modules/,
-                use:["babel-loader"]
+                use:["babel-loader","eslint-loader"]
             },
             {
-                test:/\.(.css)$/,
+                test:/\.(css)$/,
                 use:["style-loader","css-loader"]
             }
         ]
