@@ -5,7 +5,12 @@ import * as authorActions from '../../redux/actions/authorActions'
 import PropTypes from 'prop-types'
 import {bindActionCreators} from 'redux'
 import CourseList from './CourseList'
+import {Redirect } from 'react-router-dom'
+import Spinner from '../common/Spinner'
 class CoursesPage extends React.Component{
+    state={
+        redirectToAddCoursePage:false
+    }
   componentDidMount(){
       const { courses, authors, actions} = this.props
       if(courses.length ===0){
@@ -34,9 +39,18 @@ class CoursesPage extends React.Component{
     render(){
         return (
            <>
+           {this.state.redirectToAddCoursePage && <Redirect to="/course"/>}
+           {this.props.loading ? <Spinner /> :
+                <div>
+
                 <h1>Courses</h1>
+                <button style={{marginBottom:20}} className="btn btn-primary add-course" onClick={() => this.setState({redirectToAddCoursePage:true})}>
+                    Add new
+                </button>
                 <CourseList courses= {this.props.courses}/>
-                
+            
+                </div>
+           }
             </>
         )
     }
@@ -44,7 +58,8 @@ class CoursesPage extends React.Component{
 CoursesPage.PropTypes ={
     authors:PropTypes.array.isRequired,
     courses:PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    loading:PropTypes.bool.isRequired
 }
 function mapStateToProps(state){
     return {
@@ -56,7 +71,8 @@ function mapStateToProps(state){
                 authorName: state.authors.find(a => a.id === course.authorId).name
             }
         }),
-        authors: state.authors
+        authors: state.authors,
+        loading: state.apiCallsInProgress > 0
     }
 }
 function mapDispatchToProps(dispatch){
